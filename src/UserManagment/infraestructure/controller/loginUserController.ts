@@ -1,22 +1,24 @@
 import { Request, Response } from "express";
-import { CreateUserUseCase } from "../../application/useCase/createUserUseCase";
+import { LoginUserUseCase } from "../../application/useCase/loginUserUseCase";
 
 
-export class CreateUserController {
-    constructor(readonly createUserUseCase: CreateUserUseCase) { }
+export class LoginUserController {
+    constructor(
+        readonly loginUserController: LoginUserUseCase,
+        ) {}
 
-    async run(req: Request, res: Response) {
+    async run(req:Request,res:Response) {
+        
         try {
+           
+            let {email,password} = req.body
+    
+            let loginUser = await this.loginUserController.run(email, password)
 
-            const { name, email, password , phone_number, image} = req.body;
-            let user= {name, email, password , phone_number, suscription:false, verification:false, image}
-            const createUser = await this.createUserUseCase.run(user);
-            
-
-            if (createUser) {
-                return res.status(201).send({
-                    createUser
-                })
+            if (loginUser) {
+                return res.status(201).send(
+                   loginUser
+                )
             }
             else {
                 res.status(404).send({
@@ -26,7 +28,7 @@ export class CreateUserController {
                     message: "Error al crear un usuario, inténtalo más tarde"
                 })
             }
-
+             
         } catch (error) {
             if (error instanceof Error) {
 
