@@ -32,9 +32,7 @@ export class MysqlUserRepository implements userInterface{
           }
       
           const user: any = (rows[0] as any)[0];
-
-          console.log(password)
-          console.log(user.password)
+          
           // Verificar si la contraseña proporcionada coincide con la almacenada en la base de datos
           const passwordMatches = await compare(password, user.password);
           if (!passwordMatches) {
