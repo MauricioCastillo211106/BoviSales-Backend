@@ -51,4 +51,6 @@ export class CattleValidator {
         this.breed = breed;
         this.image = image;
     }
+
+    
 }

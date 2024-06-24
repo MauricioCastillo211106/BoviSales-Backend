@@ -120,4 +120,44 @@ export class MysqlCattleRepository implements CattleInterface {
             return "Error";
         }
     }
+    
+    async updateCattleById(id: number, cattleData: Partial<Cattle>): Promise<Cattle | null> {
+        try {
+            const sql = `
+                UPDATE Cattle SET 
+                name = COALESCE(?, name), 
+                weight = COALESCE(?, weight), 
+                earringNumber = COALESCE(?, earringNumber), 
+                age = COALESCE(?, age), 
+                gender = COALESCE(?, gender), 
+                breed = COALESCE(?, breed), 
+                image = COALESCE(?, image)
+                WHERE id = ?
+            `;
+            const params = [
+                cattleData.name, 
+                cattleData.weight, 
+                cattleData.earringNumber, 
+                cattleData.age, 
+                cattleData.gender, 
+                cattleData.breed, 
+                cattleData.image,
+                id
+            ];
+
+            const [result]: any = await query(sql, params);
+
+            if (result.affectedRows === 0) {
+                return null; // No se encontró el registro a actualizar
+            }
+
+            // Retornar el Cattle actualizado
+            const updatedCattle = await this.getCattleById(id);
+            return updatedCattle;
+
+        } catch (error) {
+            console.error("Error updating cattle by ID:", error);
+            return null;
+        }
+    }
 }

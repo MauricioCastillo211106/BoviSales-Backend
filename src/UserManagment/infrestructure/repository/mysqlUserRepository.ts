@@ -19,7 +19,20 @@ export class MysqlUserRepository implements userInterface{
         }
     }
 
-    async loginUser(email: string, password: string): Promise<Userlogin | null | string> {
+    async updatePassword(email: string, newPassword: string): Promise<boolean> {
+      try {
+          const sql = 'UPDATE User SET password = ? WHERE email = ?';
+          const [result]: any = await query(sql, [newPassword, email]);
+          return result.affectedRows > 0;
+      } catch (error) {
+          console.error('Error updating password:', error);
+          return false;
+      }
+  }
+              
+
+   
+          async loginUser(email: string, password: string): Promise<Userlogin | null | string> {
         try {
           // Consulta a la base de datos para obtener el usuario por correo electrónico
           const rows = await query('SELECT * FROM User WHERE email = ?', [email]);
@@ -30,6 +43,7 @@ export class MysqlUserRepository implements userInterface{
             console.error('No user found with email:', email);
             return "Usuario no encontrado"; // Usuario no encontrado
           }
+          
       
           const user: any = (rows[0] as any)[0];
           
@@ -60,6 +74,20 @@ export class MysqlUserRepository implements userInterface{
         } catch (error) {
           console.error('Error during login:', error);
           throw error;
-        }
+        }  
     }
+    async getByEmail(email: string): Promise<User | null> {
+      try {
+          const sql = "SELECT * FROM users WHERE email = ? LIMIT 1"; // SQL para obtener un usuario por uuid
+          const [rows]: any = await query(sql, [email]); // Ejecutamos la consulta, pasando el uuid como parámetro
+
+          if (!rows || rows.length === 0) return null; // Si no hay resultados, retornamos null        
+          const row = rows[0]; // Tomamos el primer resultado (ya que uuid debería ser único)
+          // Retornamos una nueva instancia de User con los datos obtenidos
+          return new User(row.name, row.email, row.passwordHash, row.phone_number, row.suscription, row.verification, row.image);
+      } catch (error) {
+          console.error(error);
+          return null; // En caso de error, retornamos null
+      }
+  }
 }
