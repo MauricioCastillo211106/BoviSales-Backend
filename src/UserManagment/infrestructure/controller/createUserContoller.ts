@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserUseCase } from "../../application/useCase/createUserUseCase";
+import { UploadedFile } from "express-fileupload";
+import uploadToFirebase from "../../../helpers/saveImg";
 
 
 export class CreateUserController {
@@ -8,8 +10,19 @@ export class CreateUserController {
     async run(req: Request, res: Response) {
         try {
 
-            const { name, email, password , phone_number, image} = req.body;
-            let user= {name, email, password , phone_number, suscription:false, verification:false, image}
+            const { name, email, password , phone_number} = req.body;
+
+            const imgFile = req.files ? req.files.image as UploadedFile : null;
+            if (!imgFile) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "No file uploaded."
+                });
+            }
+            const imagenUrl = await uploadToFirebase(imgFile);
+            console.log(imagenUrl)
+
+            let user= {name, email, password , phone_number, suscription:false, verification:false, image:imagenUrl}
             const createUser = await this.createUserUseCase.run(user);
             
 

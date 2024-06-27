@@ -2,14 +2,37 @@ import { Request, Response } from "express";
 import { CreateCattleUseCase } from "../../application/useCase/registerCattleUseCase";
 import { CattleGender } from "../../domain/entity/cattleGender";
 import { Breed } from "../../domain/entity/breed";
+import { UploadedFile } from "express-fileupload";
+import uploadToFirebase from "../../../helpers/saveImg";
 
 export class CreateCattleController {
     constructor(readonly createCattleUseCase: CreateCattleUseCase) {}
 
     async run(req: Request, res: Response) {
         try {
-            // Extraer datos del cuerpo de la solicitud
-            const { name, weight, earringNumber, age, gender, breed, image } = req.body;
+            // Extraer datos del cuerpo de la solicitud y convertir a números
+            const { name, gender, breed } = req.body;
+            const weight = Number(req.body.weight);
+            const earringNumber = Number(req.body.earringNumber);
+            const age = Number(req.body.age);
+
+            // Verificar que los valores numéricos son válidos
+            if (isNaN(weight) || isNaN(earringNumber) || isNaN(age)) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "Invalid numeric values for weight, earringNumber, or age."
+                });
+            }
+
+            const imgFile = req.files ? req.files.image as UploadedFile : null;
+            if (!imgFile) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "No file uploaded."
+                });
+            }
+            const imagenUrl = await uploadToFirebase(imgFile);
+            console.log(imagenUrl);
 
             // Usar valores predeterminados si no se proporcionan
             const cattleGender = (gender as CattleGender) || CattleGender.male;
@@ -38,7 +61,7 @@ export class CreateCattleController {
                 age,
                 cattleGender,
                 cattleBreed,
-                image
+                imagenUrl
             );
 
             // Si la creación fue exitosa, devolver la respuesta con estado 201
