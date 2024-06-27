@@ -8,6 +8,8 @@ export class CreateUserUseCase{
     constructor( readonly userinterface:userInterface){}
 
     async run(user:any):Promise<User | null>{
+
+        console.log(user.image," asdas")
         //validator-class
         let post = new ValidatorCreateUser(user.name,user.email,user.password,user.phone_number,user.suscription,user.verification,user.image);
         const validation = await validate(post)
