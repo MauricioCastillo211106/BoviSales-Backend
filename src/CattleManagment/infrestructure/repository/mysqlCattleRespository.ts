@@ -1,13 +1,27 @@
 import { Cattle } from "../../domain/entity/cattle";
 import { CattleInterface } from "../../domain/port/cattleInterface";
 import { query } from "../../../database/mysql";
+import { throws } from "assert";
 
 export class MysqlCattleRepository implements CattleInterface {
 
     
 
-    async createCattle(cattle: Cattle): Promise<Cattle | null> {
+    async createCattle(cattle: Cattle): Promise<Cattle | null  | string> {
         try {
+            // Verificar que el id_user existe en la tabla user
+            const checkUserSql = `
+                SELECT * FROM user WHERE id = ?
+            `;
+            const checkUserParams: any[] = [cattle.id_user];
+            const userResult: any = await query(checkUserSql, checkUserParams);
+            
+            if (userResult[0].length === 0) {
+                console.error("Error: id_user does not exist");
+                throw new Error("Error, Usuario no encontrado");
+            }
+    
+            // Continuar con la inserción del registro en la tabla Cattle
             const sql = `
                 INSERT INTO Cattle (
                     name, 
@@ -16,8 +30,9 @@ export class MysqlCattleRepository implements CattleInterface {
                     age, 
                     gender, 
                     breed, 
-                    image
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    image,
+                    id_user
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             `;
             const params: any[] = [
                 cattle.name, 
@@ -26,11 +41,12 @@ export class MysqlCattleRepository implements CattleInterface {
                 cattle.age, 
                 cattle.gender, 
                 cattle.breed, 
-                cattle.image
+                cattle.image,
+                cattle.id_user
             ];
             const result: any = await query(sql, params);
             const id = result.insertId;
-
+    
             // Crear y devolver una nueva instancia de Cattle con los datos proporcionados.
             return new Cattle(
                 cattle.name, 
@@ -39,7 +55,8 @@ export class MysqlCattleRepository implements CattleInterface {
                 cattle.age, 
                 cattle.gender, 
                 cattle.breed, 
-                cattle.image
+                cattle.image,
+                cattle.id_user
             );
         } catch (error) {
             console.error("Error creating Cattle:", error);
@@ -67,7 +84,8 @@ export class MysqlCattleRepository implements CattleInterface {
                     row.age,
                     row.gender,
                     row.breed,
-                    row.image
+                    row.image,
+                    row.id_user
                 );
             });
 
@@ -96,7 +114,8 @@ export class MysqlCattleRepository implements CattleInterface {
                 row.age,
                 row.gender,
                 row.breed,
-                row.image
+                row.image,
+                row.id_user
             );
 
         } catch (error) {

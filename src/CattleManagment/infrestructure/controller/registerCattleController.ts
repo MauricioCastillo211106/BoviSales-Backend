@@ -15,6 +15,7 @@ export class CreateCattleController {
             const weight = Number(req.body.weight);
             const earringNumber = Number(req.body.earringNumber);
             const age = Number(req.body.age);
+            const id = Number(req.body.id);
 
             // Verificar que los valores numéricos son válidos
             if (isNaN(weight) || isNaN(earringNumber) || isNaN(age)) {
@@ -32,7 +33,7 @@ export class CreateCattleController {
                 });
             }
             const imagenUrl = await uploadToFirebase(imgFile);
-            console.log(imagenUrl);
+            
 
             // Usar valores predeterminados si no se proporcionan
             const cattleGender = (gender as CattleGender) || CattleGender.male;
@@ -61,7 +62,8 @@ export class CreateCattleController {
                 age,
                 cattleGender,
                 cattleBreed,
-                imagenUrl
+                imagenUrl,
+                id
             );
 
             // Si la creación fue exitosa, devolver la respuesta con estado 201

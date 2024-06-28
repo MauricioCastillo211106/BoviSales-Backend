@@ -12,6 +12,9 @@ import { ChangeUserPasswordController } from "./controller/changePasswordControl
 import { GetByEmailUseCase } from "../application/useCase/getByEmailUseCase";
 import { GetByEmailController } from "./controller/getByEmailController";
 
+import { GetCattleByUserUseCase } from "../application/useCase/getAllCattlesFromUserUseCase";
+import { GetCattleByUserController } from "./controller/getAllCattlesFromUserController";
+
 const mysqlUserRepository = new MysqlUserRepository();
 
 const createUserUseCase = new CreateUserUseCase(mysqlUserRepository);
@@ -25,5 +28,8 @@ export const changeUserPasswordController  = new ChangeUserPasswordController (c
 
 const getByEmailUseCase = new GetByEmailUseCase(mysqlUserRepository);
 export const getByEmailController  = new GetByEmailController (getByEmailUseCase)
+
+const getCattleByUserUseCase = new GetCattleByUserUseCase(mysqlUserRepository);
+export const getCattleByUserController  = new GetCattleByUserController (getCattleByUserUseCase)
 
 
