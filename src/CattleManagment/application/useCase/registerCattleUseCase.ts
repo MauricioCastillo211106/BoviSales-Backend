@@ -15,8 +15,9 @@ export class CreateCattleUseCase {
         age: number,
         gender: CattleGender,
         breed: Breed,
-        image: string
-    ): Promise<Cattle | null> {
+        image: string,
+        id_user: number
+    ): Promise<Cattle | null | string> {
         // Crear la instancia de validación
         const validator = new CattleValidator(
             name,
@@ -43,7 +44,8 @@ export class CreateCattleUseCase {
                 age,
                 gender,
                 breed,
-                image
+                image, 
+                id_user
             );
 
             // Guardar la instancia en la base de datos a través de la interfaz

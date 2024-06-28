@@ -20,7 +20,6 @@ export class CreateUserController {
                 });
             }
             const imagenUrl = await uploadToFirebase(imgFile);
-            console.log(imagenUrl)
 
             let user= {name, email, password , phone_number, suscription:false, verification:false, image:imagenUrl}
             const createUser = await this.createUserUseCase.run(user);

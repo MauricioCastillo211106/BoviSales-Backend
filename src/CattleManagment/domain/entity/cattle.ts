@@ -9,7 +9,8 @@ export class Cattle {
         readonly age: number ,
         readonly gender : CattleGender,
         readonly breed : Breed,
-        readonly image : string
+        readonly image : string,
+        readonly id_user: number
     ){}
  
 }
