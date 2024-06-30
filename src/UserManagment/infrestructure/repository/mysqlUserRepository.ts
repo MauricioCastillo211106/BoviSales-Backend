@@ -60,7 +60,7 @@ export class MysqlUserRepository implements userInterface {
       // Crear una instancia de UserLogin con el token
       const userLogin = new Userlogin(
         token,
-        user.uuid,
+        user.id,
         user.name,
         user.email,
         user.phone_number,
