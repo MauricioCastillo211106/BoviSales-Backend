@@ -8,7 +8,7 @@ dotenv.config();
 
 // Asegurarse de que las variables de entorno estén definidas y tengan un valor predeterminado
 const config = {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST,
     port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
     user: process.env.DB_USER,
     database: process.env.DB_DATABASE,

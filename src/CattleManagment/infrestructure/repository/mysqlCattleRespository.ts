@@ -13,11 +13,13 @@ export class MysqlCattleRepository implements CattleInterface {
             const checkUserSql = `
                 SELECT * FROM user WHERE id = ?
             `;
+            console.log(cattle.id_user)
             const checkUserParams: any[] = [cattle.id_user];
             const userResult: any = await query(checkUserSql, checkUserParams);
+            console.log(userResult[0])
             
             if (userResult[0].length === 0) {
-                console.error("Error: id_user does not exist");
+                console.error("Erro r: id_user does not exist");
                 throw new Error("Error, Usuario no encontrado");
             }
     
@@ -142,41 +144,23 @@ export class MysqlCattleRepository implements CattleInterface {
     
     async updateCattleById(id: number, cattleData: Partial<Cattle>): Promise<Cattle | null> {
         try {
-            const sql = `
-                UPDATE Cattle SET 
-                name = COALESCE(?, name), 
-                weight = COALESCE(?, weight), 
-                earringNumber = COALESCE(?, earringNumber), 
-                age = COALESCE(?, age), 
-                gender = COALESCE(?, gender), 
-                breed = COALESCE(?, breed), 
-                image = COALESCE(?, image)
-                WHERE id = ?
-            `;
-            const params = [
-                cattleData.name, 
-                cattleData.weight, 
-                cattleData.earringNumber, 
-                cattleData.age, 
-                cattleData.gender, 
-                cattleData.breed, 
-                cattleData.image,
-                id
-            ];
+            const fields = Object.keys(cattleData).map(key => `${key} = ?`).join(", ");
+            const values = Object.values(cattleData);
+            values.push(id);
 
-            const [result]: any = await query(sql, params);
+            const sql = `UPDATE Cattle SET ${fields} WHERE id = ?`;
+            const result: any = await query(sql, values);
 
             if (result.affectedRows === 0) {
-                return null; // No se encontró el registro a actualizar
+                return null;
             }
 
-            // Retornar el Cattle actualizado
-            const updatedCattle = await this.getCattleById(id);
+            const updatedCattle: Cattle | null = await this.getCattleById(id);
             return updatedCattle;
-
         } catch (error) {
             console.error("Error updating cattle by ID:", error);
             return null;
         }
     }
+
 }
