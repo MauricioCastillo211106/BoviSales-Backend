@@ -4,6 +4,8 @@ import { GetCattleByUserUseCase } from "../../application/useCase/getAllCattlesF
 export class GetCattleByUserController {
     constructor(readonly getCattleByUserUseCase: GetCattleByUserUseCase) {}
 
+
+    
     async run(req: Request, res: Response) {
         try {
             const userId = req.params.userId;
