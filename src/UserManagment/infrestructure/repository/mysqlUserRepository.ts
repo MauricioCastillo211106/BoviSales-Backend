@@ -9,7 +9,7 @@ export class MysqlUserRepository implements userInterface {
 
   async createUser(user: User): Promise<User | null> {
     try {
-      const sql = "INSERT INTO User (name, email, password , phone_number, suscription, verification, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO user (name, email, password , phone_number, suscription, verification, image) VALUES (?, ?, ?, ?, ?, ?, ?)";
       const params: any[] = [user.name, user.email, user.password, user.phone_number, user.suscription, user.verification, user.image];
       const result: any = await query(sql, params);
       const id = result.id;
@@ -22,7 +22,7 @@ export class MysqlUserRepository implements userInterface {
 
   async updatePassword(email: string, newPassword: string): Promise<boolean> {
     try {
-      const sql = 'UPDATE User SET password = ? WHERE email = ?';
+      const sql = 'UPDATE user SET password = ? WHERE email = ?';
       const [result]: any = await query(sql, [newPassword, email]);
       return result.affectedRows > 0;
     } catch (error) {
@@ -36,7 +36,7 @@ export class MysqlUserRepository implements userInterface {
   async loginUser(email: string, password: string): Promise<Userlogin | null | string> {
     try {
       // Consulta a la base de datos para obtener el usuario por correo electrónico
-      const rows = await query('SELECT * FROM User WHERE email = ?', [email]);
+      const rows = await query('SELECT * FROM user WHERE email = ?', [email]);
       console.log('Rows retrieved from DB:', rows);
 
       // Verifica si se encontró el usuario
@@ -79,7 +79,7 @@ export class MysqlUserRepository implements userInterface {
   }
   async getByEmail(email: string): Promise<User | null> {
     try {
-      const sql = "SELECT * FROM users WHERE email = ? LIMIT 1"; // SQL para obtener un usuario por uuid
+      const sql = "SELECT * FROM user WHERE email = ? LIMIT 1"; // SQL para obtener un usuario por uuid
       const [rows]: any = await query(sql, [email]); // Ejecutamos la consulta, pasando el uuid como parámetro
 
       if (!rows || rows.length === 0) return null; // Si no hay resultados, retornamos null        

@@ -15,7 +15,7 @@ export class CreateCattleController {
             const weight = Number(req.body.weight);
             const earringNumber = Number(req.body.earringNumber);
             const age = Number(req.body.age);
-            const id = Number(req.body.id);
+            const id_user = Number(req.body.id_user);
 
             // Verificar que los valores numéricos son válidos
             if (isNaN(weight) || isNaN(earringNumber) || isNaN(age)) {
@@ -63,7 +63,7 @@ export class CreateCattleController {
                 cattleGender,
                 cattleBreed,
                 imagenUrl,
-                id
+                id_user
             );
 
             // Si la creación fue exitosa, devolver la respuesta con estado 201

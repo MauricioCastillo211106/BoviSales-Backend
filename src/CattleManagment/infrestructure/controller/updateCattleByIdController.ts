@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UpdateCattleByIdUseCase } from "../../application/useCase/updateCattleByIdUseCase";
+import { UploadedFile } from "express-fileupload";
 
 export class UpdateCattleByIdController {
     constructor(private readonly updateCattleByIdUseCase: UpdateCattleByIdUseCase) {}
@@ -17,9 +18,21 @@ export class UpdateCattleByIdController {
             }
 
             const cattleData = req.body;
+            const imgFile = req.files ? req.files.image as UploadedFile : undefined;
+
+            // Convertir valores numéricos a números
+            if (cattleData.weight !== undefined) {
+                cattleData.weight = Number(cattleData.weight);
+            }
+            if (cattleData.earringNumber !== undefined) {
+                cattleData.earringNumber = Number(cattleData.earringNumber);
+            }
+            if (cattleData.age !== undefined) {
+                cattleData.age = Number(cattleData.age);
+            }
 
             // Llamar al caso de uso para actualizar el Cattle
-            const updatedCattle = await this.updateCattleByIdUseCase.execute(cattleId, cattleData);
+            const updatedCattle = await this.updateCattleByIdUseCase.execute(cattleId, cattleData, imgFile);
 
             if (updatedCattle) {
                 return res.status(200).send({
@@ -45,6 +58,7 @@ export class UpdateCattleByIdController {
                     });
                 }
             }
+            
             return res.status(500).send({
                 status: "error",
                 message: "Ocurrió un error al actualizar el registro de ganado."
