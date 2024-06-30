@@ -4,6 +4,7 @@ import { GetAllCattleUseCase } from "../../application/useCase/getAllCattleUseCa
 export class GetAllCattleController {
     constructor(private readonly getAllCattleUseCase: GetAllCattleUseCase) {}
 
+    
     async run(req: Request, res: Response) {
         try {
             const cattleList = await this.getAllCattleUseCase.getAll();
