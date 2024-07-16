@@ -4,7 +4,8 @@ import {
     createUserController,
     getByEmailController,
     loginUserController,
-    getCattleByUserController 
+    getCattleByUserController,
+    getUserByIdController 
 } from "../dependencies";
 
 export const UserRouter = express.Router();
@@ -14,3 +15,4 @@ UserRouter.post("/login", loginUserController.run.bind(loginUserController));
 UserRouter.get("/email", getByEmailController.get.bind(getByEmailController));
 UserRouter.put("/new_password", changeUserPasswordController.run.bind(changeUserPasswordController));
 UserRouter.get("/cattle/:userId", getCattleByUserController.run.bind(getCattleByUserController));
+UserRouter.get("/:id", getUserByIdController.run.bind(getUserByIdController));

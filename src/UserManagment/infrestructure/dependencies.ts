@@ -15,6 +15,9 @@ import { GetByEmailController } from "./controller/getByEmailController";
 import { GetCattleByUserUseCase } from "../application/useCase/getAllCattlesFromUserUseCase";
 import { GetCattleByUserController } from "./controller/getAllCattlesFromUserController";
 
+import { GetUserByIdUseCase } from "../application/useCase/getUserByidUseCase";
+import { GetUserByIdController } from "./controller/getUserByIdController";
+
 const mysqlUserRepository = new MysqlUserRepository();
 
 const createUserUseCase = new CreateUserUseCase(mysqlUserRepository);
@@ -32,4 +35,6 @@ export const getByEmailController  = new GetByEmailController (getByEmailUseCase
 const getCattleByUserUseCase = new GetCattleByUserUseCase(mysqlUserRepository);
 export const getCattleByUserController  = new GetCattleByUserController (getCattleByUserUseCase)
 
+const getUserByIdUseCase = new GetUserByIdUseCase(mysqlUserRepository);
+export const getUserByIdController  = new GetUserByIdController (getUserByIdUseCase)
 

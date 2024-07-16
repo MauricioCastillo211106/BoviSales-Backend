@@ -115,5 +115,29 @@ export class MysqlUserRepository implements userInterface {
       return null;
     }
   }
+  async getUserById(id: string): Promise<User | null> {
+    try {
+        const sql = "SELECT * FROM User WHERE id = ?";
+        const [rows]: any = await query(sql, [id]);
+
+        if (rows.length === 0) {
+            return null;
+        }
+
+        const row = rows[0];
+        return new User(
+            row.name,
+            row.email,
+            row.password,
+            row.phone_number,
+            row.suscription,
+            row.verification,
+            row.image
+        );
+    } catch (error) {
+        console.error("Error getting user by ID:", error);
+        return null;
+    }
+}
 
 }
