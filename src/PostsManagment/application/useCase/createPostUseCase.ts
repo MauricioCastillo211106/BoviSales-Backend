@@ -1,0 +1,43 @@
+import { Post } from "../../domain/entity/post";
+import { PostInterface } from "../../domain/port/postInterface";
+import { ValidatePost } from "../../domain/validation/validatePost";
+import { validate } from "class-validator";
+import { Status } from "../../domain/entity/status";
+
+export class CreatePublicUseCase {
+    constructor(readonly PostInterface: PostInterface) {}
+
+    async create(
+        idCattle: number,
+        idUser: number,
+        description: string,
+        precio: number,
+        ubicacion: string,
+        fecha: Date,
+        status: Status
+    ): Promise<Post | null> {
+
+        let post = new ValidatePost(idCattle, idUser, description, precio, ubicacion, fecha, status);
+        const validation = await validate(post);
+        if (validation.length > 0) {
+            throw new Error(JSON.stringify(validation));
+        }
+
+        const newPublication = new Post(
+            idCattle,
+            idUser,
+            description,
+            precio,
+            ubicacion,
+            fecha,
+            status
+        );
+
+        try {
+            return await this.PostInterface.CreatePost(newPublication);
+        } catch (error) {
+            console.error("Error creating public:", error);
+            return null;
+        }
+    }
+}

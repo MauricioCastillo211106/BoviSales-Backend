@@ -8,4 +8,6 @@ export interface userInterface{
     updatePassword(email: string, newPassword: string): Promise<boolean>;
     getByEmail(email:string):Promise<User | null>
     getAllCattlesFromUser(userId: string): Promise<Cattle[] | null>;
+    getUserById(id: string): Promise<User | null>;
+    deleteUserById(id: number): Promise<boolean>;
 }

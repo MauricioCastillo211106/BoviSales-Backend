@@ -3,6 +3,7 @@ import cors from "cors";
 import { Signale } from 'signale';
 import { UserRouter } from "./UserManagment/infrestructure/routes/userRoutes";
 import { CattleRouter } from "./CattleManagment/infrestructure/routes/cattleRoutes";
+import { postRouter } from "./PostsManagment/infrestructure/routes/postRoutes"; // Import or define the postRoutes variable
 import fileUpload from 'express-fileupload'; 
 import * as admin from "firebase-admin";
 import dotenv from "dotenv";
@@ -26,7 +27,7 @@ app.use(fileUpload());
 
 app.use('/api/v1/user',UserRouter);
 app.use('/api/v1/cattle',CattleRouter);
-
+app.use('/api/posts', postRouter);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
