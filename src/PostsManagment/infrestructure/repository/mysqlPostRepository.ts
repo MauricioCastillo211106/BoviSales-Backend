@@ -75,4 +75,104 @@ export class MysqlPostRepository implements PostInterface {
             return null;
         }
     }
+    async getAllPosts(): Promise<Post[] | null> {
+        try {
+            const sql = `SELECT * FROM Post`;
+            const [results]: any = await query(sql);
+
+            if (!results || results.length === 0) {
+                return null;
+            }
+
+            return results.map((result: any) => new Post(
+                result.idCattle,
+                result.idUser,
+                result.description,
+                result.precio,
+                result.ubicacion,
+                new Date(result.fecha),
+                result.status
+            ));
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+            return null;
+        }
+    }
+    async updatePost(id: number, post: Post): Promise<Post | null> {
+        try {
+            const sql = `
+                UPDATE Post 
+                SET idCattle = ?, idUser = ?, description = ?, precio = ?, ubicacion = ?, fecha = ?, status = ? 
+                WHERE id = ?
+            `;
+            const params = [
+                post.idCattle,
+                post.idUser,
+                post.description,
+                post.precio,
+                post.ubicacion,
+                post.fecha,
+                post.status,
+                id
+            ];
+            const [result]: any = await query(sql, params);
+
+            console.log("SQL update result:", result);
+            console.log("SQL update result.affectedRows:", result.affectedRows);
+
+            if (result.affectedRows > 0) {
+                return new Post(
+                    post.idCattle,
+                    post.idUser,
+                    post.description,
+                    post.precio,
+                    post.ubicacion,
+                    post.fecha,
+                    post.status
+                );
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error("Error updating post:", error);
+            return null;
+        }
+    }
+    async deletePostById(id: number): Promise<boolean> {
+        try {
+            const sql = `DELETE FROM Post WHERE id = ?`;
+            const [result]: any = await query(sql, [id]);
+
+            console.log("SQL delete result:", result);
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error("Error deleting post by ID:", error);
+            return false;
+        }
+    }
+    async getPostById(id: number): Promise<Post | null> {
+        try {
+            const sql = `SELECT * FROM Post WHERE id = ?`;
+            const [rows]: any = await query(sql, [id]);
+
+            if (rows.length > 0) {
+                const post = rows[0];
+                return new Post(
+                    post.idCattle,
+                    post.idUser,
+                    post.description,
+                    post.precio,
+                    post.ubicacion,
+                    new Date(post.fecha),
+                    post.status
+                );
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error("Error getting post by ID:", error);
+            return null;
+        }
+    }
 }
