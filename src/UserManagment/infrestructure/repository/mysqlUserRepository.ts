@@ -139,5 +139,15 @@ export class MysqlUserRepository implements userInterface {
         return null;
     }
 }
+  async deleteUserById(id: number): Promise<boolean> {
+        try {
+            const sql = `DELETE FROM user WHERE id = ?`;
+            const [result]: any = await query(sql, [id]);
+            return result.affectedRows > 0; // Devuelve true si se eliminó al menos una fila
+        } catch (error) {
+            console.error("Error deleting user by ID:", error);
+            return false;
+        }
+    }
 
 }

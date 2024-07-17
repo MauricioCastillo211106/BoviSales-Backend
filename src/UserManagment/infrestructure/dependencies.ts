@@ -18,23 +18,28 @@ import { GetCattleByUserController } from "./controller/getAllCattlesFromUserCon
 import { GetUserByIdUseCase } from "../application/useCase/getUserByidUseCase";
 import { GetUserByIdController } from "./controller/getUserByIdController";
 
+import { DeleteUserUseCase } from "../application/useCase/deleteUserByIdUseCase";
+import { DeleteUserController } from "./controller/deleteUserbyidController";
+
 const mysqlUserRepository = new MysqlUserRepository();
 
 const createUserUseCase = new CreateUserUseCase(mysqlUserRepository);
 export const createUserController = new CreateUserController(createUserUseCase);
 
 const loginUserUseCase = new LoginUserUseCase(mysqlUserRepository);
-export const loginUserController = new LoginUserController(loginUserUseCase)
+export const loginUserController = new LoginUserController(loginUserUseCase);
 
 const changeUserPasswordUseCase = new ChangeUserPasswordUseCase(mysqlUserRepository);
-export const changeUserPasswordController  = new ChangeUserPasswordController (changeUserPasswordUseCase)
+export const changeUserPasswordController = new ChangeUserPasswordController(changeUserPasswordUseCase);
 
 const getByEmailUseCase = new GetByEmailUseCase(mysqlUserRepository);
-export const getByEmailController  = new GetByEmailController (getByEmailUseCase)
+export const getByEmailController = new GetByEmailController(getByEmailUseCase);
 
 const getCattleByUserUseCase = new GetCattleByUserUseCase(mysqlUserRepository);
-export const getCattleByUserController  = new GetCattleByUserController (getCattleByUserUseCase)
+export const getCattleByUserController = new GetCattleByUserController(getCattleByUserUseCase);
 
 const getUserByIdUseCase = new GetUserByIdUseCase(mysqlUserRepository);
-export const getUserByIdController  = new GetUserByIdController (getUserByIdUseCase)
+export const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
 
+const deleteUserUseCase = new DeleteUserUseCase(mysqlUserRepository);
+export const deleteUserController = new DeleteUserController(deleteUserUseCase);

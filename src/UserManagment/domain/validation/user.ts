@@ -1,4 +1,4 @@
-import { IsString, IsUUID, Length, IsBoolean, IsNotEmpty, ValidateIf, IsIn, IsOptional,IsEmail} from 'class-validator';
+import { IsInt, Min, IsString, IsUUID, Length, IsBoolean, IsNotEmpty, ValidateIf, IsIn, IsOptional,IsEmail} from 'class-validator';
 
 
 export class ValidatorCreateUser {
@@ -55,11 +55,12 @@ export class ValidatorCreateUser {
 }
 
 export class ValidatorId {
-    @IsNotEmpty()
-    @IsUUID()
-    public uuid: string;
-    constructor(uuid:string) {
-        this.uuid = uuid
+    @IsInt()
+    @Min(1)
+    id: number;
+
+    constructor(id: number) {
+        this.id = id;
     }
 }
 
