@@ -3,11 +3,11 @@ import { Status } from "../entity/status";
 
 export class ValidatePost {
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     idCattle: number;
 
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     idUser: number;
 
     @IsNotEmpty()
@@ -40,3 +40,4 @@ export class ValidatePost {
         this.status = status;
     }
 }
+
