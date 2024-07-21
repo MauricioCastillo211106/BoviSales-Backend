@@ -3,9 +3,13 @@ import { PostInterface } from "../../domain/port/postInterface";
 import { ValidatePost } from "../../domain/validation/validatePost";
 import { validate } from "class-validator";
 import { Status } from "../../domain/entity/status";
+import { TextAnalysisService } from "../../services/textAnalysisService"; // Importa el servicio de análisis de texto
 
 export class CreatePublicUseCase {
-    constructor(readonly PostInterface: PostInterface) {}
+    constructor(
+        private readonly postRepository: PostInterface,
+        private readonly textAnalysisService: TextAnalysisService // Inyecta el servicio de análisis de texto
+    ) {}
 
     async create(
         idCattle: number,
@@ -23,6 +27,11 @@ export class CreatePublicUseCase {
             throw new Error(JSON.stringify(validation));
         }
 
+        // Verificar si el texto contiene palabras ofensivas
+        if (!this.textAnalysisService.isTextClean(description)) {
+            throw new Error("El texto contiene palabras ofensivas y no puede ser publicado.");
+        }
+
         const newPublication = new Post(
             idCattle,
             idUser,
@@ -34,9 +43,9 @@ export class CreatePublicUseCase {
         );
 
         try {
-            return await this.PostInterface.CreatePost(newPublication);
+            return await this.postRepository.CreatePost(newPublication);
         } catch (error) {
-            console.error("Error creating public:", error);
+            console.error("Error creating post:", error);
             return null;
         }
     }

@@ -36,6 +36,7 @@
     "firebase-admin": "^12.2.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.1",
+    "natural": "^7.1.0",
     "signale": "^1.4.0"
   }
 }

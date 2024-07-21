@@ -1,20 +1,24 @@
 import { MysqlPostRepository } from "./repository/mysqlPostRepository";
 import { CreatePublicUseCase } from "../application/useCase/createPostUseCase";
-import { CreatePostController } from "./controller/createPostController";
 import { GetAllPostsUseCase } from "../application/useCase/getAllPostsUseCase";
-import { GetAllPostsController } from "./controller/getAllPostController";
 import { UpdatePostUseCase } from "../application/useCase/updatePostUseCase";
-import { UpdatePostController } from "./controller/updatePostController";
 import { DeletePostUseCase } from "../application/useCase/deletePostUseCase";
-import { DeletePostController } from "./controller/deletePostController";
 import { GetPostByIdUseCase } from "../application/useCase/getPostByIdUseCase";
+import { CreatePostController } from "./controller/createPostController";
+import { GetAllPostsController } from "./controller/getAllPostController";
+import { UpdatePostController } from "./controller/updatePostController";
+import { DeletePostController } from "./controller/deletePostController";
 import { GetPostByIdController } from "./controller/getPostByIdController";
+import { TextAnalysisService } from "../services/textAnalysisService";
 
 // Repositorios
 const postRepository = new MysqlPostRepository();
 
+// Servicios
+const textAnalysisService = new TextAnalysisService();
+
 // Casos de Uso
-const createPostUseCase = new CreatePublicUseCase(postRepository);
+const createPostUseCase = new CreatePublicUseCase(postRepository, textAnalysisService);
 const getAllPostsUseCase = new GetAllPostsUseCase(postRepository);
 const updatePostUseCase = new UpdatePostUseCase(postRepository);
 const deletePostUseCase = new DeletePostUseCase(postRepository);

@@ -4,7 +4,7 @@ import { Status } from "../../domain/entity/status";
 
 export class CreatePostController {
     constructor(
-        readonly CreatePublicUseCase: CreatePublicUseCase
+        readonly createPublicUseCase: CreatePublicUseCase
     ) {}
 
     async run(req: Request, res: Response) {
@@ -27,7 +27,7 @@ export class CreatePostController {
             }
 
             // Llama a createPostUseCase con la información proporcionada
-            const newPost = await this.CreatePublicUseCase.create(
+            const newPost = await this.createPublicUseCase.create(
                 idCattle,
                 idUser,
                 description,
@@ -55,6 +55,11 @@ export class CreatePostController {
                         status: "error",
                         message: "Validation failed",
                         errors: JSON.parse(error.message)
+                    });
+                } else if (error.message === "El texto contiene palabras ofensivas y no puede ser publicado.") {
+                    return res.status(400).send({
+                        status: "error",
+                        message: error.message
                     });
                 }
             }

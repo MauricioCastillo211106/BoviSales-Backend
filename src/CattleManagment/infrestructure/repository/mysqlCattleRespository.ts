@@ -13,7 +13,7 @@ export class MysqlCattleRepository implements CattleInterface {
             const checkUserSql = `
                 SELECT * FROM user WHERE id = ?
             `;
-            console.log(cattle.id_user)
+            console.log(cattle.id_user,"")
             const checkUserParams: any[] = [cattle.id_user];
             const userResult: any = await query(checkUserSql, checkUserParams);
             console.log(userResult[0])
@@ -46,11 +46,13 @@ export class MysqlCattleRepository implements CattleInterface {
                 cattle.image,
                 cattle.id_user
             ];
-            const result: any = await query(sql, params);
+            const [result]: any = await query(sql, params);
             const id = result.insertId;
+            console.log(id)
     
             // Crear y devolver una nueva instancia de Cattle con los datos proporcionados.
             return new Cattle(
+                id,
                 cattle.name, 
                 cattle.weight, 
                 cattle.earringNumber, 
@@ -80,6 +82,7 @@ export class MysqlCattleRepository implements CattleInterface {
             // Mapear cada fila a una instancia de Cattle
             const cattleList: Cattle[] = rows.map((row: any) => {
                 return new Cattle(
+                    row.id,
                     row.name,
                     row.weight,
                     row.earringNumber,
@@ -110,6 +113,7 @@ export class MysqlCattleRepository implements CattleInterface {
 
             const row = rows[0];
             return new Cattle(
+                row.id,
                 row.name,
                 row.weight,
                 row.earringNumber,
