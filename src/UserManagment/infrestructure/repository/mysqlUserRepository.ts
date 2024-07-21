@@ -101,6 +101,7 @@ export class MysqlUserRepository implements userInterface {
       const result: any = await query(sql, params);
 
       return result[0].map((row: any) => new Cattle(
+        row.id,
         row.name,
         row.weight,
         row.earringNumber,

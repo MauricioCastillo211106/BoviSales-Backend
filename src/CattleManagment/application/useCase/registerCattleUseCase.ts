@@ -37,7 +37,8 @@ export class CreateCattleUseCase {
 
         // Crear la instancia de Cattle
         try {
-            const newCattle = new Cattle(
+            const newCattle = { 
+                id: 0, // Add the 'id' property with a default value
                 name,
                 weight,
                 earringNumber,
@@ -46,7 +47,7 @@ export class CreateCattleUseCase {
                 breed,
                 image, 
                 id_user
-            );
+            };
 
             // Guardar la instancia en la base de datos a través de la interfaz
             const createdCattle = await this.cattleInterface.createCattle(newCattle);
