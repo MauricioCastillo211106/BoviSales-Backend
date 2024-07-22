@@ -3,7 +3,7 @@ import { PostInterface } from "../../domain/port/postInterface";
 import { ValidatePost } from "../../domain/validation/validatePost";
 import { validate } from "class-validator";
 import { Status } from "../../domain/entity/status";
-import { TextAnalysisService } from "../../services/textAnalysisService"; // Importa el servicio de análisis de texto
+import { TextAnalysisService } from "../../services/textAnalysisService";
 
 export class CreatePublicUseCase {
     constructor(
