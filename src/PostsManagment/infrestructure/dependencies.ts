@@ -10,6 +10,9 @@ import { UpdatePostController } from "./controller/updatePostController";
 import { DeletePostController } from "./controller/deletePostController";
 import { GetPostByIdController } from "./controller/getPostByIdController";
 import { TextAnalysisService } from "../services/textAnalysisService";
+import { GetPostsByUserIdUseCase } from "../application/useCase/getPostsByUserIdUseCase";
+import { GetPostsByUserIdController } from "./controller/getPostsByUserIdController";
+
 
 // Repositorios
 const postRepository = new MysqlPostRepository();
@@ -23,6 +26,7 @@ const getAllPostsUseCase = new GetAllPostsUseCase(postRepository);
 const updatePostUseCase = new UpdatePostUseCase(postRepository);
 const deletePostUseCase = new DeletePostUseCase(postRepository);
 const getPostByIdUseCase = new GetPostByIdUseCase(postRepository);
+const getPostsByUserIdUseCase = new GetPostsByUserIdUseCase(postRepository);
 
 // Controladores
 export const createPostController = new CreatePostController(createPostUseCase);
@@ -30,3 +34,4 @@ export const getAllPostsController = new GetAllPostsController(getAllPostsUseCas
 export const updatePostController = new UpdatePostController(updatePostUseCase);
 export const deletePostController = new DeletePostController(deletePostUseCase);
 export const getPostByIdController = new GetPostByIdController(getPostByIdUseCase);
+export const getPostsByUserIdController = new GetPostsByUserIdController(getPostsByUserIdUseCase);
