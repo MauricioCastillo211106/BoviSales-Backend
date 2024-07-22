@@ -175,4 +175,27 @@ export class MysqlPostRepository implements PostInterface {
             return null;
         }
     }
+    async getPostsByUserId(userId: number): Promise<Post[] | null> {
+        try {
+            const sql = `SELECT * FROM Post WHERE idUser = ?`;
+            const [result]: any = await query(sql, [userId]);
+
+            if (!result || result.length === 0) {
+                return null;
+            }
+
+            return result.map((row: any) => new Post(
+                row.idCattle,
+                row.idUser,
+                row.description,
+                row.precio,
+                row.ubicacion,
+                new Date(row.fecha),
+                row.status
+            ));
+        } catch (error) {
+            console.error("Error fetching posts by user ID:", error);
+            return null;
+        }
+    }
 }
