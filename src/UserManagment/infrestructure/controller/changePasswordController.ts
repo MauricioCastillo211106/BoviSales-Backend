@@ -6,7 +6,7 @@ export class ChangeUserPasswordController {
 
     async run(req: Request, res: Response) {
         try {
-            const { email } = req.params;
+            const { email } = req.body;
             const { currentPassword, newPassword } = req.body;
 
             if (!email || !currentPassword || !newPassword) {

@@ -7,7 +7,7 @@ export class ChangeUserPasswordUseCase {
     constructor(private readonly userInterface: userInterface) {}
 
     async execute(email: string, currentPassword: string, newPassword: string): Promise<string | null> {
-        let post = new ValidatorupdatePassword(currentPassword, newPassword);
+        let post = new ValidatorupdatePassword(email, newPassword);
         const validation = await validate(post);
         if (validation.length > 0) {
             throw new Error(JSON.stringify(validation));
