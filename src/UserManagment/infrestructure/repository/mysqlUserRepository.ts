@@ -85,7 +85,7 @@ export class MysqlUserRepository implements userInterface {
       if (!rows || rows.length === 0) return null; // Si no hay resultados, retornamos null        
       const row = rows[0]; // Tomamos el primer resultado (ya que uuid debería ser único)
       // Retornamos una nueva instancia de User con los datos obtenidos
-      return new User(row.name, row.email, row.passwordHash, row.phone_number, row.suscription, row.verification, row.image);
+      return new User(row.name, row.email, row.password, row.phone_number, row.suscription, row.verification, row.image);
     } catch (error) {
       console.error(error);
       return null; // En caso de error, retornamos null
