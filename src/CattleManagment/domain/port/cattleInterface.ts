@@ -6,4 +6,5 @@ export interface CattleInterface {
     getCattleById(id: number): Promise<Cattle | null>;
     deleteCattleById(id: number): Promise<string | null>;
     updateCattleById(id: number, cattleData: Partial<Cattle>): Promise<Cattle | null>;
+    getCattleByBreed(breed: string): Promise<Cattle[]>;
 }

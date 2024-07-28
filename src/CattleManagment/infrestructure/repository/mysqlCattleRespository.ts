@@ -167,4 +167,31 @@ export class MysqlCattleRepository implements CattleInterface {
         }
     }
 
+    async getCattleByBreed(breed: string): Promise<Cattle[]> {
+        try {
+            const sql = "SELECT * FROM Cattle WHERE breed = ?";
+            const [rows]: any = await query(sql, [breed]);
+    
+            // Si no hay filas, retornar un array vacío
+            if (!rows || rows.length === 0) {
+                return [];
+            }
+    
+            return rows.map((row: any) => new Cattle(
+                row.id,
+                row.name,
+                row.weight,
+                row.earringNumber,
+                row.age,
+                row.gender,
+                row.breed,
+                row.image,
+                row.id_user
+            ));
+        } catch (error) {
+            console.error("Error fetching cattle by breed:", error);
+            throw error;
+        }
+    }
+
 }
