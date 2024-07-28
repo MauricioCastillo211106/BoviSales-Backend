@@ -10,7 +10,8 @@ import { DeleteCattleByIdController } from "./controller/deleteCattleByIdControl
 import { DeleteCattleByIdUseCase } from "../application/useCase/deleteCattleByIdUseCase";
 import { UpdateCattleByIdController } from "./controller/updateCattleByIdController";
 import { UpdateCattleByIdUseCase } from "../application/useCase/updateCattleByIdUseCase";
-
+import { GetCattleByBreedController } from "./controller/getCattleByBreedController";
+import { GetCattleByBreedUseCase } from "../application/useCase/getCattleByBreedUseCase";
 
 const mysqlCattleRepository = new MysqlCattleRepository();
 
@@ -27,5 +28,8 @@ const deleteCattleByIdUseCase = new DeleteCattleByIdUseCase(mysqlCattleRepositor
 export const deleteCattleByIdController = new DeleteCattleByIdController (deleteCattleByIdUseCase)
 
 const updateCattleByIdUseCase = new UpdateCattleByIdUseCase(mysqlCattleRepository);
-export const updateCattleByIdController = new UpdateCattleByIdController (updateCattleByIdUseCase)
+export const updateCattleByIdController = new UpdateCattleByIdController (updateCattleByIdUseCase) 
+
+const getCattleByBreedUseCase = new GetCattleByBreedUseCase(mysqlCattleRepository);
+export const getCattleByBreedController = new GetCattleByBreedController(getCattleByBreedUseCase);
 
