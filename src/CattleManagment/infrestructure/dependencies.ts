@@ -12,6 +12,9 @@ import { UpdateCattleByIdController } from "./controller/updateCattleByIdControl
 import { UpdateCattleByIdUseCase } from "../application/useCase/updateCattleByIdUseCase";
 import { GetCattleByBreedController } from "./controller/getCattleByBreedController";
 import { GetCattleByBreedUseCase } from "../application/useCase/getCattleByBreedUseCase";
+import { GetCattleByEarringNumberController } from "./controller/getCattleByEarringNumberController";
+import { GetCattleByEarringNumberUseCase } from "../application/useCase/getCattleByEarringNumberUseCase";
+
 
 const mysqlCattleRepository = new MysqlCattleRepository();
 
@@ -33,3 +36,5 @@ export const updateCattleByIdController = new UpdateCattleByIdController (update
 const getCattleByBreedUseCase = new GetCattleByBreedUseCase(mysqlCattleRepository);
 export const getCattleByBreedController = new GetCattleByBreedController(getCattleByBreedUseCase);
 
+const getCattleByEarringNumberUseCase = new GetCattleByEarringNumberUseCase(mysqlCattleRepository);
+export const getCattleByEarringNumberController = new GetCattleByEarringNumberController(getCattleByEarringNumberUseCase);
