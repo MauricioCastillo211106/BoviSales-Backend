@@ -7,4 +7,5 @@ export interface CattleInterface {
     deleteCattleById(id: number): Promise<string | null>;
     updateCattleById(id: number, cattleData: Partial<Cattle>): Promise<Cattle | null>;
     getCattleByBreed(breed: string): Promise<Cattle[]>;
+    getCattleByEarringNumber(earringNumber: number): Promise<Cattle | null>;
 }

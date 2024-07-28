@@ -193,5 +193,30 @@ export class MysqlCattleRepository implements CattleInterface {
             throw error;
         }
     }
+    async getCattleByEarringNumber(earringNumber: number): Promise<Cattle | null> {
+        try {
+            const sql = "SELECT * FROM Cattle WHERE earringNumber = ?";
+            const [rows]: any = await query(sql, [earringNumber]);
 
+            if (rows.length === 0) {
+                return null;
+            }
+
+            const row = rows[0];
+            return new Cattle(
+                row.id,
+                row.name,
+                row.weight,
+                row.earringNumber,
+                row.age,
+                row.gender,
+                row.breed,
+                row.image,
+                row.id_user
+            );
+        } catch (error) {
+            console.error("Error fetching cattle by earring number:", error);
+            return null;
+        }
+    }
 }
